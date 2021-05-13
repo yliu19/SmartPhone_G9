@@ -96,23 +96,36 @@ public class MainActivity extends Activity implements OnClickListener {
         ShapeDrawable d = new ShapeDrawable(new RectShape());
         d.setBounds(60, height-510, width-150, height-500);
         ShapeDrawable d2 = new ShapeDrawable(new RectShape());
-        d2.setBounds(width/2, height/5+300, width-150, height/5+310);
+        d2.setBounds(60, height/5+300, width, height/5+310);
         ShapeDrawable d3 = new ShapeDrawable(new RectShape());
-        d3.setBounds(60, height/5+300, width/2-150, height/5+310);
+        d3.setBounds(width/2, height*3/5+50, width-150, height*3/5+60);
         ShapeDrawable d4 = new ShapeDrawable(new RectShape());
         d4.setBounds(60, height*3/5-100, width/2-150, height*3/5-90);
         ShapeDrawable d5 = new ShapeDrawable(new RectShape());
         d5.setBounds(60, height/5, width/2, height/5+10);
-
-
-
+        ShapeDrawable d6 = new ShapeDrawable(new RectShape());
+        d6.setBounds(width/2, height/5, width/2+10, height*2/5+100);
+        ShapeDrawable d7 = new ShapeDrawable(new RectShape());
+        d7.setBounds(width/2, height*3/5-100, width/2+10, height-500);
+        ShapeDrawable d8 = new ShapeDrawable(new RectShape());
+        d8.setBounds(width/2-150, height/5+300, width/2-140, height-500);
+        ShapeDrawable d9 = new ShapeDrawable(new RectShape());
+        d9.setBounds(width/2, height*3/5-100, width, height*3/5-90);
+        ShapeDrawable d10 = new ShapeDrawable(new RectShape());
+        d10.setBounds(width/2+150, height*2/5+100, width/2+160, height*3/5+50);
+        ShapeDrawable d11 = new ShapeDrawable(new RectShape());
+        d11.setBounds(width-10, height/5+300, width, height*3/5-90);
         walls.add(d);
         walls.add(d2);
         walls.add(d3);
         walls.add(d4);
         walls.add(d5);
-
-
+        walls.add(d6);
+        walls.add(d7);
+        walls.add(d8);
+        walls.add(d9);
+        walls.add(d10);
+        walls.add(d11);
         walls.add(d_left);
         walls.add(d_right);
         walls.add(outline);
