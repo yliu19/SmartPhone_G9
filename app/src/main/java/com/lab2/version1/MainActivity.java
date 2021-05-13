@@ -10,6 +10,8 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.RectF;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Display;
@@ -80,27 +82,40 @@ public class MainActivity extends Activity implements OnClickListener {
 //        drawable.setBounds(width/2-20, height/2-20, width/2+20, height/2+20);
 
         walls = new ArrayList<>();
-        float [] outerRadii = new float[] {};
-        float [] innerRadii = new float[] {};
-        //ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,20, innerRadii));
+
+        float [] outerRadii = new float[] {5,5,5,5,5,5,5,5};
+        float [] innerRadii = new float[] {5,5,5,5,5,5,5,5};
+
+        Rect rect = new Rect(50,30, width-50,height-30);
+        RectF rectF = new RectF(rect);
+        ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,rectF, innerRadii));
         ShapeDrawable d_left = new ShapeDrawable(new RectShape());
-        d_left.setBounds(20, height/5, 30, height-200);
+        d_left.setBounds(60, height/5, 70, height-500);
         ShapeDrawable d_right = new ShapeDrawable(new RectShape());
-        d_right.setBounds(width-200, height/5, width-210, height-200);
-
-
-
-
+        d_right.setBounds(width-160, height/5+300, width-150, height-500);
         ShapeDrawable d = new ShapeDrawable(new RectShape());
-        d.setBounds(width/2-200, height/2-90, width/2+200, height/2-80);
+        d.setBounds(60, height-510, width-150, height-500);
         ShapeDrawable d2 = new ShapeDrawable(new RectShape());
-        d2.setBounds(width/2-200, height/2+60, width/2+200, height/2+70);
+        d2.setBounds(width/2, height/5+300, width-150, height/5+310);
         ShapeDrawable d3 = new ShapeDrawable(new RectShape());
-        d3.setBounds(width/2+200, height/2-90, width/2+210, height/2+70);
+        d3.setBounds(60, height/5+300, width/2-150, height/5+310);
+        ShapeDrawable d4 = new ShapeDrawable(new RectShape());
+        d4.setBounds(60, height*3/5-100, width/2-150, height*3/5-90);
+        ShapeDrawable d5 = new ShapeDrawable(new RectShape());
+        d5.setBounds(60, height/5, width/2, height/5+10);
+
+
+
         walls.add(d);
         walls.add(d2);
         walls.add(d3);
+        walls.add(d4);
+        walls.add(d5);
+
+
         walls.add(d_left);
+        walls.add(d_right);
+        walls.add(outline);
 
         // create a canvas
         ImageView canvasView = (ImageView) findViewById(R.id.canvas);
