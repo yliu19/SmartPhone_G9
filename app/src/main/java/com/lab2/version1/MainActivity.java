@@ -1,151 +1,133 @@
 package com.lab2.version1;
 
 import android.app.Activity;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Bundle;
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Smart Phone Sensing Example 2. Working with sensors.
+ * Smart Phone Sensing Example 6. Object movement and interaction on canvas.
  */
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements OnClickListener {
 
     /**
-     * The sensor manager object.
+     * The buttons.
      */
-    private SensorManager sensorManager;
+//    private Button up, left, right, down;
     /**
-     * The accelerometer.
+     * The text view.
      */
-    private Sensor accelerometer;
+//    private TextView textView;
     /**
-     * The wifi manager.
+     * The shape.
      */
-    private WifiManager wifiManager;
+    private ShapeDrawable drawable;
     /**
-     * The wifi info.
+     * The canvas.
      */
-    private WifiInfo wifiInfo;
+    private Canvas canvas;
     /**
-     * Accelerometer x value
+     * The walls.
      */
-    private float aX = 0;
-    /**
-     * Accelerometer y value
-     */
-    private float aY = 0;
-    /**
-     * Accelerometer z value
-     */
-    private float aZ = 0;
-
-    /**
-     * Text fields to show the sensor values.
-     */
-    private TextView currentX, currentY, currentZ, titleAcc, textRssi;
-
-    Button buttonRssi;
-
+    private List<ShapeDrawable> walls;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the text views.
-        currentX = (TextView) findViewById(R.id.currentX);
-        currentY = (TextView) findViewById(R.id.currentY);
-        currentZ = (TextView) findViewById(R.id.currentZ);
-        titleAcc = (TextView) findViewById(R.id.titleAcc);
-        textRssi = (TextView) findViewById(R.id.textRSSI);
+        // set the buttons
+//        up = (Button) findViewById(R.id.button1);
 
-        // Create the button
-        buttonRssi = (Button) findViewById(R.id.buttonRSSI);
+        // set the text view
+//        textView = (TextView) findViewById(R.id.textView1);
 
-        // Set the sensor manager
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        // set listeners
+//        up.setOnClickListener(this);
 
-        // if the default accelerometer exists
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            // set accelerometer
-            accelerometer = sensorManager
-                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            // register 'this' as a listener that updates values. Each time a sensor value changes,
-            // the method 'onSensorChanged()' is called.
-            sensorManager.registerListener(this, accelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL);
-        } else {
-            // No accelerometer!
-        }
+        // get the screen dimensions
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        System.out.println(width);
+        System.out.println(height);
 
-        // Set the wifi manager
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        // create a drawable object
+//        drawable = new ShapeDrawable(new OvalShape());
+//        drawable.getPaint().setColor(Color.BLUE);
+//        drawable.setBounds(width/2-20, height/2-20, width/2+20, height/2+20);
 
-        // Create a click listener for our button.
-        buttonRssi.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get the wifi info.
-                wifiInfo = wifiManager.getConnectionInfo();
-                // update the text.
-                textRssi.setText("\n\tSSID = " + wifiInfo.getSSID()
-                        + "\n\tRSSI = " + wifiInfo.getRssi()
-                        + "\n\tLocal Time = " + System.currentTimeMillis());
-            }
-        });
-    }
+        walls = new ArrayList<>();
+        ShapeDrawable d_left = new ShapeDrawable(new RectShape());
+        d_left.setBounds(width/2-200, height/2-90, width/2-190, height/2+70);
 
-    // onResume() registers the accelerometer for listening the events
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, accelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
+        ShapeDrawable d = new ShapeDrawable(new RectShape());
+        d.setBounds(width/2-200, height/2-90, width/2+200, height/2-80);
+        ShapeDrawable d2 = new ShapeDrawable(new RectShape());
+        d2.setBounds(width/2-200, height/2+60, width/2+200, height/2+70);
+        ShapeDrawable d3 = new ShapeDrawable(new RectShape());
+        d3.setBounds(width/2+200, height/2-90, width/2+210, height/2+70);
+        walls.add(d);
+        walls.add(d2);
+        walls.add(d3);
+        walls.add(d_left);
 
-    // onPause() unregisters the accelerometer for stop listening the events
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
+        // create a canvas
+        ImageView canvasView = (ImageView) findViewById(R.id.canvas);
+        Bitmap blankBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(blankBitmap);
+        canvasView.setImageBitmap(blankBitmap);
+
+        // draw the objects
+//        drawable.draw(canvas);
+        for(ShapeDrawable wall : walls)
+            wall.draw(canvas);
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        currentX.setText("0.0");
-        currentY.setText("0.0");
-        currentZ.setText("0.0");
-
-        // get the the x,y,z values of the accelerometer
-        aX = event.values[0];
-        aY = event.values[1];
-        aZ = event.values[2];
-
-        // display the current x,y,z accelerometer values
-        currentX.setText(Float.toString(aX));
-        currentY.setText(Float.toString(aY));
-        currentZ.setText(Float.toString(aZ));
-
-        if ((Math.abs(aX) > Math.abs(aY)) && (Math.abs(aX) > Math.abs(aZ))) {
-            titleAcc.setTextColor(Color.RED);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
         }
-        if ((Math.abs(aY) > Math.abs(aX)) && (Math.abs(aY) > Math.abs(aZ))) {
-            titleAcc.setTextColor(Color.BLUE);
-        }
-        if ((Math.abs(aZ) > Math.abs(aY)) && (Math.abs(aZ) > Math.abs(aX))) {
-            titleAcc.setTextColor(Color.GREEN);
-        }
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+
 }
