@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
         walls = new ArrayList<>();
         ShapeDrawable d_left = new ShapeDrawable(new RectShape());
-        d_left.setBounds(width/2-200, height/2-90, width/2-190, height/2+70);
+        d_left.setBounds(20, height/5, 30, height-200);
 
         ShapeDrawable d = new ShapeDrawable(new RectShape());
         d.setBounds(width/2-200, height/2-90, width/2+200, height/2-80);
