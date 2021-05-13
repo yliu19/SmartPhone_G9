@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Display;
@@ -79,8 +80,16 @@ public class MainActivity extends Activity implements OnClickListener {
 //        drawable.setBounds(width/2-20, height/2-20, width/2+20, height/2+20);
 
         walls = new ArrayList<>();
+        float [] outerRadii = new float[] {};
+        float [] innerRadii = new float[] {};
+        //ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,20, innerRadii));
         ShapeDrawable d_left = new ShapeDrawable(new RectShape());
         d_left.setBounds(20, height/5, 30, height-200);
+        ShapeDrawable d_right = new ShapeDrawable(new RectShape());
+        d_right.setBounds(width-200, height/5, width-210, height-200);
+
+
+
 
         ShapeDrawable d = new ShapeDrawable(new RectShape());
         d.setBounds(width/2-200, height/2-90, width/2+200, height/2-80);
