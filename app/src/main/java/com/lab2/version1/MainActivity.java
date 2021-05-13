@@ -11,7 +11,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.graphics.RectF;
-
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Display;
@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * The text view.
      */
-//    private TextView textView;
+    private TextView Aisle;
     /**
      * The shape.
      */
@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements OnClickListener {
 //        up = (Button) findViewById(R.id.button1);
 
         // set the text view
-//        textView = (TextView) findViewById(R.id.textView1);
+        Aisle = (TextView) findViewById(R.id.aisle);
 
         // set listeners
 //        up.setOnClickListener(this);
@@ -86,7 +86,8 @@ public class MainActivity extends Activity implements OnClickListener {
         float [] outerRadii = new float[] {5,5,5,5,5,5,5,5};
         float [] innerRadii = new float[] {5,5,5,5,5,5,5,5};
 
-        Rect rect = new Rect(50,30, width-50,height-30);
+        System.out.println("step 1");
+        Rect rect = new Rect(width/2,height*3/5+50, width-150,height-500);
         RectF rectF = new RectF(rect);
         ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,rectF, innerRadii));
         ShapeDrawable d_left = new ShapeDrawable(new RectShape());
@@ -108,7 +109,7 @@ public class MainActivity extends Activity implements OnClickListener {
         ShapeDrawable d7 = new ShapeDrawable(new RectShape());
         d7.setBounds(width/2, height*3/5-100, width/2+10, height-500);
         ShapeDrawable d8 = new ShapeDrawable(new RectShape());
-        d8.setBounds(width/2-150, height/5+300, width/2-140, height-500);
+        d8.setBounds(width/2-150, height*3/5-100, width/2-140, height-500);
         ShapeDrawable d9 = new ShapeDrawable(new RectShape());
         d9.setBounds(width/2, height*3/5-100, width, height*3/5-90);
         ShapeDrawable d10 = new ShapeDrawable(new RectShape());
@@ -128,13 +129,17 @@ public class MainActivity extends Activity implements OnClickListener {
         walls.add(d11);
         walls.add(d_left);
         walls.add(d_right);
-        walls.add(outline);
 
         // create a canvas
         ImageView canvasView = (ImageView) findViewById(R.id.canvas);
         Bitmap blankBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(blankBitmap);
         canvasView.setImageBitmap(blankBitmap);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.GRAY);
+        canvas.drawRect(width/2,height*3/5+50,width-150,height-500, paint);
+
 
         // draw the objects
 //        drawable.draw(canvas);
