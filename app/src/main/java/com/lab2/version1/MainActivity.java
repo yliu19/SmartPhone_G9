@@ -1,4 +1,4 @@
-package com.example.example2;
+package com.lab2.version1;
 
 import android.app.Activity;
 import android.net.wifi.WifiInfo;
