@@ -122,5 +122,135 @@
         android:layout_marginTop="56dp"
         android:src="@drawable/tree2" />
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="468dp"
+        android:src="@drawable/bed" />
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="425dp"
+        android:src="@drawable/table4" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="413dp"
+        android:src="@drawable/wc" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="42dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="253dp"
+        android:layout_marginTop="417dp"
+        android:src="@drawable/wash" />
+
+    <ImageView
+        android:layout_width="34dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="295dp"
+        android:layout_marginTop="417dp"
+        android:src="@drawable/wash2" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="350dp"
+        android:src="@drawable/sofa3" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="310dp"
+        android:src="@drawable/sofa3" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="360dp"
+        android:src="@drawable/sofa2" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="300dp"
+        android:src="@drawable/table5" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="118dp"
+        android:layout_marginTop="500dp"
+        android:src="@drawable/drawer" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="118dp"
+        android:layout_marginTop="460dp"
+        android:src="@drawable/drawer" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="270dp"
+        android:src="@drawable/table2" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="360dp"
+        android:src="@drawable/cook" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="285dp"
+        android:layout_marginTop="364dp"
+        android:src="@drawable/wash2" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="210dp"
+        android:layout_marginTop="330dp"
+        android:src="@drawable/drawer" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="380dp"
+        android:layout_marginTop="270dp"
+        android:src="@drawable/f1" />
 </RelativeLayout>
