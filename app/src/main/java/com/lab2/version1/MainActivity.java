@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import android.graphics.DashPathEffect;
 
 /**
  * Smart Phone Sensing Example 6. Object movement and interaction on canvas.
@@ -135,12 +136,9 @@ public class MainActivity extends Activity implements OnClickListener {
         //home
         canvas.drawRect(60,height/5+300,width-150,height-500, paint);
         //bedroom
-        canvas.drawRect(60,height*3/5-100,width/2-150,height-500, paint);
-        //balcony
-        canvas.drawRect(width-150,height/5+300,width,height*3/5-100, paint);
+        canvas.drawRect(60,height*3/5-100,width/2,height-500, paint);
         //stairs
         canvas.drawRect(60,height/5,width/2,height/5+300, paint);
-
 
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
@@ -150,6 +148,18 @@ public class MainActivity extends Activity implements OnClickListener {
 //        drawable.draw(canvas);
         for(ShapeDrawable wall : walls)
             wall.draw(canvas);
+
+        Paint fgPaintSel = new Paint();
+        fgPaintSel.setStyle(Paint.Style.STROKE);
+        fgPaintSel.setPathEffect(new DashPathEffect(new float[] {10f,20f}, 0f));
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(10);
+        canvas.drawRect(60,height*4/5-300,width/4+30,height-500, fgPaintSel);
+        canvas.drawRect(60,height*3/5-100,width/4+30,height*4/5-300, fgPaintSel);
+        canvas.drawRect(width/4+30,height*4/5-300,width/2,height-500, fgPaintSel);
+        canvas.drawRect(width/4+30,height*3/5-100,width/2,height*4/5-300, fgPaintSel);
+        canvas.drawRect(width/2-150,height*2/5+100,width/2+150,height*3/5-100, fgPaintSel);
+        canvas.drawRect(60,height/5+300,width/2-150,height*3/5-100, fgPaintSel);
     }
 
     @Override

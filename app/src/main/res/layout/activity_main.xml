@@ -84,7 +84,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="30dp"
         android:textSize="40dp"
-        android:textColor="#613513"
+        android:textColor="#619759"
         android:text="Indoor Localization" />
 
 
@@ -105,7 +105,7 @@
         android:layout_marginTop="570dp"
         android:layout_marginLeft="100dp"
         android:textSize="40dp"
-        android:textColor="#613513"
+        android:textColor="#619759"
         android:text="Start" />
 
     <ImageView
@@ -206,7 +206,7 @@
         android:layout_width="40dp"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="118dp"
+        android:layout_marginLeft="170dp"
         android:layout_marginTop="500dp"
         android:src="@drawable/drawer" />
 
@@ -214,7 +214,7 @@
         android:layout_width="40dp"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="118dp"
+        android:layout_marginLeft="170dp"
         android:layout_marginTop="460dp"
         android:src="@drawable/drawer" />
 
@@ -313,4 +313,80 @@
         android:layout_marginLeft="320dp"
         android:layout_marginTop="460dp"
         android:src="@drawable/f4" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="435dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="435dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="500dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="500dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="200dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="330dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="350dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="310dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="340dp"
+        android:layout_marginTop="320dp"
+        android:src="@android:drawable/ic_notification_overlay" />
+
+
+
+
 </RelativeLayout>
