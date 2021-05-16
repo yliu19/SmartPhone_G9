@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements OnClickListener {
 //        up = (Button) findViewById(R.id.button1);
 
         // set the text view
-        Aisle = (TextView) findViewById(R.id.aisle);
+//        Aisle = (TextView) findViewById(R.id.aisle);
 
         // set listeners
 //        up.setOnClickListener(this);
@@ -90,45 +90,14 @@ public class MainActivity extends Activity implements OnClickListener {
         Rect rect = new Rect(width/2,height*3/5+50, width-150,height-500);
         RectF rectF = new RectF(rect);
         ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,rectF, innerRadii));
-        ShapeDrawable d_left = new ShapeDrawable(new RectShape());
-        d_left.setBounds(60, height/5, 70, height-500);
-        ShapeDrawable d_right = new ShapeDrawable(new RectShape());
-        d_right.setBounds(width-160, height/5+300, width-150, height-500);
-        ShapeDrawable d = new ShapeDrawable(new RectShape());
-        d.setBounds(60, height-510, width-150, height-500);
+
+
+        ShapeDrawable d1 = new ShapeDrawable(new RectShape());
+        d1.setBounds(width/2, height/5+300, width/2+10, height*2/5+100);
         ShapeDrawable d2 = new ShapeDrawable(new RectShape());
-        d2.setBounds(60, height/5+300, width, height/5+310);
-        ShapeDrawable d3 = new ShapeDrawable(new RectShape());
-        d3.setBounds(width/2, height*3/5+50, width-150, height*3/5+60);
-        ShapeDrawable d4 = new ShapeDrawable(new RectShape());
-        d4.setBounds(60, height*3/5-100, width/2-150, height*3/5-90);
-        ShapeDrawable d5 = new ShapeDrawable(new RectShape());
-        d5.setBounds(60, height/5, width/2, height/5+10);
-        ShapeDrawable d6 = new ShapeDrawable(new RectShape());
-        d6.setBounds(width/2, height/5, width/2+10, height*2/5+100);
-        ShapeDrawable d7 = new ShapeDrawable(new RectShape());
-        d7.setBounds(width/2, height*3/5-100, width/2+10, height-500);
-        ShapeDrawable d8 = new ShapeDrawable(new RectShape());
-        d8.setBounds(width/2-150, height*3/5-100, width/2-140, height-500);
-        ShapeDrawable d9 = new ShapeDrawable(new RectShape());
-        d9.setBounds(width/2, height*3/5-100, width, height*3/5-90);
-        ShapeDrawable d10 = new ShapeDrawable(new RectShape());
-        d10.setBounds(width/2+150, height*2/5+100, width/2+160, height*3/5+50);
-        ShapeDrawable d11 = new ShapeDrawable(new RectShape());
-        d11.setBounds(width-10, height/5+300, width, height*3/5-90);
-        walls.add(d);
+        d2.setBounds(width/2+150, height*2/5+100, width/2+160, height*3/5+50);
+        walls.add(d1);
         walls.add(d2);
-        walls.add(d3);
-        walls.add(d4);
-        walls.add(d5);
-        walls.add(d6);
-        walls.add(d7);
-        walls.add(d8);
-        walls.add(d9);
-        walls.add(d10);
-        walls.add(d11);
-        walls.add(d_left);
-        walls.add(d_right);
 
         // create a canvas
         ImageView canvasView = (ImageView) findViewById(R.id.canvas);
@@ -137,8 +106,27 @@ public class MainActivity extends Activity implements OnClickListener {
         canvasView.setImageBitmap(blankBitmap);
 
         Paint paint = new Paint();
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
+        //laundrt room
+        canvas.drawRect(width/2,height*3/5-100,width-150,height-500, paint);
+        //inaccessible
         canvas.drawRect(width/2,height*3/5+50,width-150,height-500, paint);
+        //home
+        canvas.drawRect(60,height/5+300,width-150,height-500, paint);
+        //bedroom
+        canvas.drawRect(60,height*3/5-100,width/2-150,height-500, paint);
+        //balcony
+        canvas.drawRect(width-150,height/5+300,width,height*3/5-100, paint);
+        //stairs
+        canvas.drawRect(60,height/5,width/2,height/5+300, paint);
+
+
+
+        paint.setColor(Color.GRAY);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(width/2+5,height*3/5+55,width-155,height-505, paint);
 
 
         // draw the objects
