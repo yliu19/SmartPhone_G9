@@ -106,6 +106,25 @@ public class MainActivity extends Activity implements OnClickListener {
         canvasView.setImageBitmap(blankBitmap);
 
         Paint paint = new Paint();
+
+        //fill colors
+        int myColor = Color.parseColor("#757575");
+        paint.setColor(myColor);
+        paint.setStyle(Paint.Style.FILL);
+        //laundrt room
+        canvas.drawRect(width/2,height*3/5-100,width-150,height-500, paint);
+        //home
+        canvas.drawRect(60,height/5+300,width-150,height-500, paint);
+        //bedroom
+        canvas.drawRect(60,height*3/5-100,width/2-150,height-500, paint);
+        //balcony
+        canvas.drawRect(width-150,height/5+300,width,height*3/5-100, paint);
+        //stairs
+        canvas.drawRect(60,height/5,width/2,height/5+300, paint);
+
+
+
+        //draw boundaries
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
@@ -123,11 +142,9 @@ public class MainActivity extends Activity implements OnClickListener {
         canvas.drawRect(60,height/5,width/2,height/5+300, paint);
 
 
-
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(width/2+5,height*3/5+55,width-155,height-505, paint);
-
 
         // draw the objects
 //        drawable.draw(canvas);

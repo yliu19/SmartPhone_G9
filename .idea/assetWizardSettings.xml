@@ -37,7 +37,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Downloads/detailed-aerial-view-green-grass-tiled-texture-large-patch-some-freshly-cut-healthy-image-ready-to-be-create-much-196240792.jpeg" />
+                                                <entry key="imagePath" value="$USER_HOME$/Downloads/bridge.png" />
                                                 <entry key="opacityPercent" value="60" />
                                                 <entry key="paddingPercent" value="-10" />
                                               </map>
@@ -72,7 +72,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/detailed-aerial-view-green-grass-tiled-texture-large-patch-some-freshly-cut-healthy-image-ready-to-be-create-much-196240792.jpeg" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/bridge.png" />
+                                      <entry key="outputName" value="bridge" />
                                     </map>
                                   </option>
                                 </PersistentState>

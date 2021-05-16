@@ -4,35 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#ffffff"
+    android:background="@drawable/grass"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="20dp" >
-
+    android:paddingTop="20dp"
+    >
 
 
     <ImageView
         android:id="@+id/canvas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        />
+        android:layout_width="404dp"
+        android:layout_height="715dp"
+        android:background="@drawable/grass" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="400dp"
         android:layout_marginLeft="40dp"
-        android:text="aisle"
+        android:text="bedroom"
         android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="40dp"
         android:text="stairs"
@@ -42,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="40dp"
         android:text="living room"
@@ -52,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="210dp"
         android:text="kitchen"
@@ -62,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="400dp"
         android:layout_marginLeft="200dp"
         android:text="WC"
@@ -72,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="400dp"
         android:layout_marginLeft="260dp"
         android:text="bathroom"
@@ -81,7 +80,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/DarkGray"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="335dp"
         android:text="balcony"
@@ -96,9 +95,32 @@
         android:layout_marginLeft="200dp"
         android:text="Start" />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="200dp"
+        android:src="@drawable/tree1" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="320dp"
+        android:src="@drawable/tree2" />
 
-
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/tree2" />
 
 
 </RelativeLayout>
