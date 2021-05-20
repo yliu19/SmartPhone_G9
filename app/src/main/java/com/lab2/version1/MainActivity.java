@@ -143,6 +143,7 @@ public class MainActivity extends Activity implements OnClickListener {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(width/2+5,height*3/5+55,width-155,height-505, paint);
+        canvas.drawRect(60,height/5+300,width/2-150,height*3/5-100, paint);
 
         // draw the objects
 //        drawable.draw(canvas);
@@ -158,8 +159,7 @@ public class MainActivity extends Activity implements OnClickListener {
         canvas.drawRect(60,height*3/5-100,width/4+30,height*4/5-300, fgPaintSel);
         canvas.drawRect(width/4+30,height*4/5-300,width/2,height-500, fgPaintSel);
         canvas.drawRect(width/4+30,height*3/5-100,width/2,height*4/5-300, fgPaintSel);
-        canvas.drawRect(width/2-150,height*2/5+100,width/2+150,height*3/5-100, fgPaintSel);
-        canvas.drawRect(60,height/5+300,width/2-150,height*3/5-100, fgPaintSel);
+        canvas.drawRect(width/2,height/5+300,width-150,height*2/5+100, fgPaintSel);
     }
 
     @Override
