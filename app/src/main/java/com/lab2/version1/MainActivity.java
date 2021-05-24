@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * The buttons.
      */
-//    private Button up, left, right, down;
+    private Button locate;
     /**
      * The text view.
      */
@@ -60,54 +60,39 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         // set the buttons
-//        up = (Button) findViewById(R.id.button1);
+        locate = (Button) findViewById(R.id.button);
 
         // set the text view
 //        Aisle = (TextView) findViewById(R.id.aisle);
 
         // set listeners
-//        up.setOnClickListener(this);
+        locate.setOnClickListener(this);
 
+
+        /////////////////////////////////////////////
         // get the screen dimensions
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        System.out.println(width);
-        System.out.println(height);
-
         // create a drawable object
 //        drawable = new ShapeDrawable(new OvalShape());
 //        drawable.getPaint().setColor(Color.BLUE);
 //        drawable.setBounds(width/2-20, height/2-20, width/2+20, height/2+20);
-
         walls = new ArrayList<>();
-
-        float [] outerRadii = new float[] {5,5,5,5,5,5,5,5};
-        float [] innerRadii = new float[] {5,5,5,5,5,5,5,5};
-
-        System.out.println("step 1");
-        Rect rect = new Rect(width/2,height*3/5+50, width-150,height-500);
-        RectF rectF = new RectF(rect);
-        ShapeDrawable outline = new ShapeDrawable(new RoundRectShape(outerRadii,rectF, innerRadii));
-
-
         ShapeDrawable d1 = new ShapeDrawable(new RectShape());
         d1.setBounds(width/2, height/5+300, width/2+10, height*2/5+100);
         ShapeDrawable d2 = new ShapeDrawable(new RectShape());
         d2.setBounds(width/2+150, height*2/5+100, width/2+160, height*3/5+50);
         walls.add(d1);
         walls.add(d2);
-
         // create a canvas
         ImageView canvasView = (ImageView) findViewById(R.id.canvas);
         Bitmap blankBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(blankBitmap);
         canvasView.setImageBitmap(blankBitmap);
-
         Paint paint = new Paint();
-
         //fill colors
         int myColor = Color.parseColor("#757575");
         paint.setColor(myColor);
@@ -122,9 +107,6 @@ public class MainActivity extends Activity implements OnClickListener {
         canvas.drawRect(width-150,height/5+300,width,height*3/5-100, paint);
         //stairs
         canvas.drawRect(60,height/5,width/2,height/5+300, paint);
-
-
-
         //draw boundaries
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
@@ -139,17 +121,14 @@ public class MainActivity extends Activity implements OnClickListener {
         canvas.drawRect(60,height*3/5-100,width/2,height-500, paint);
         //stairs
         canvas.drawRect(60,height/5,width/2,height/5+300, paint);
-
+        //living room
+        canvas.drawRect(60,height/5+300,width/2-130,height*3/5-100, paint);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(width/2+5,height*3/5+55,width-155,height-505, paint);
-        canvas.drawRect(60,height/5+300,width/2-150,height*3/5-100, paint);
-
         // draw the objects
-//        drawable.draw(canvas);
         for(ShapeDrawable wall : walls)
             wall.draw(canvas);
-
         Paint fgPaintSel = new Paint();
         fgPaintSel.setStyle(Paint.Style.STROKE);
         fgPaintSel.setPathEffect(new DashPathEffect(new float[] {10f,20f}, 0f));
@@ -160,6 +139,11 @@ public class MainActivity extends Activity implements OnClickListener {
         canvas.drawRect(width/4+30,height*4/5-300,width/2,height-500, fgPaintSel);
         canvas.drawRect(width/4+30,height*3/5-100,width/2,height*4/5-300, fgPaintSel);
         canvas.drawRect(width/2,height/5+300,width-150,height*2/5+100, fgPaintSel);
+        //////////////////////////////////////////////
+
+
+
+
     }
 
     @Override
@@ -183,6 +167,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        System.out.println("Hello, you pressed");
+        
+
 
     }
 

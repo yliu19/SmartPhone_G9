@@ -37,15 +37,15 @@
         android:text="stairs"
         android:textSize="15dp" />
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:background="@color/DarkGray"-->
-<!--        android:layout_marginTop="250dp"-->
-<!--        android:layout_marginLeft="40dp"-->
-<!--        android:text="living room"-->
-<!--        android:textSize="15dp" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/DarkGray"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="40dp"
+        android:text="living room"
+        android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
         android:layout_marginTop="417dp"
         android:src="@drawable/wash2" />
 
-<!--    <ImageView
+    <ImageView
         android:layout_width="40dp"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
@@ -192,15 +192,15 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="85dp"
         android:layout_marginTop="360dp"
-        android:src="@drawable/sofa2" />-->
+        android:src="@drawable/sofa2" />
 
-<!--    <ImageView
+    <ImageView
         android:layout_width="40dp"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="45dp"
         android:layout_marginTop="300dp"
-        android:src="@drawable/table5" />-->
+        android:src="@drawable/table5" />
 
     <ImageView
         android:layout_width="40dp"
