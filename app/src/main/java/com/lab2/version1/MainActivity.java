@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * The text view.
      */
-    private TextView Aisle;
+    private TextView title;
     /**
      * The shape.
      */
@@ -303,7 +303,7 @@ public class MainActivity extends Activity implements OnClickListener {
         locate = (Button) findViewById(R.id.button);
 
         // set the text view
-//        Aisle = (TextView) findViewById(R.id.aisle);
+        title = (TextView) findViewById(R.id.texttitle);
 
         // set listeners
         locate.setOnClickListener(this);
@@ -411,10 +411,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
         double [] prior = {0.125,0.125,0.125,0.125,0.125,0.125,0.125,0.125};
         double [] posterior = {0.125,0.125,0.125,0.125,0.125,0.125,0.125,0.125};
+        double prior_maxval = -2;
         int temp = 0;
         String tempc = "";
         double sum = 0;
         double maxval = -1;
+        int [] cellValue = new int [8];
         //////////////////////////////
         //record wifi data
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -450,29 +452,46 @@ public class MainActivity extends Activity implements OnClickListener {
 
         }
         //update belief
-        int index = Arrays.binarySearch(allSSIDs, BSSIDs[0]);
-        System.out.println("index of max RSSI: " + index);
-        if (index<0){
-            System.out.println("BSSI not found...");
-        } else {
-            while(maxval<0.9) {
-                for (int k = 0; k < 8 && RSSIs[0] >= 0; k++) {
-                    posterior[k] = prior[k] * tableData[index * 8 + k][RSSIs[0]];
-                    sum = sum + posterior[k];
+        for (int i =0;i<scanResults.size() && RSSIs[i] >= 0 && RSSIs[i]<53;i++) {
+            int index = Arrays.binarySearch(allSSIDs, BSSIDs[i]);
+            System.out.println("index of max RSSI: " + index);
+            maxval = 0;
+            prior_maxval = -1;
+            if (index < 0) {
+                System.out.println("BSSI not found...");
+            } else {
+                System.out.println("before while loop: prior_maxval: "+ prior_maxval + " maxval:" + maxval);
+                while (maxval < 0.9 && prior_maxval!=maxval) {
+                    for (int k = 0; k < 8; k++) {
+                        //                    System.out.println("prior: " + posterior[k] + "  POSSIBILITY: " + tableData[index * 8 + k][RSSIs[0]]);
+                        posterior[k] = prior[k] * tableData[index * 8 + k][RSSIs[i]];
+                        sum = sum + posterior[k];
+                        prior[k] = posterior[k];
+                    }
+                    prior_maxval = maxval;
+                    //normalize
+                    for (int k = 0; k < 8 && sum!=0; k++) {
+                        posterior[k] = posterior[k] / sum;
+                        maxval = Math.max(maxval, posterior[k]);
+                    }
+                    System.out.println("current posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval + " Prior max: " + prior_maxval + " sum: " + sum);
+                    sum = 0;
                 }
-                //normalize
-                for (int k = 0; k < 8; k++) {
-                    posterior[k] = posterior[k] / sum;
-                    maxval = Math.max(maxval,posterior[k]);
+                //update cell value
+                System.out.println("ordered BSSI: "+ BSSIDs[i]  + "  RSSI: " + RSSIs[i] + "dBm" + " index: " + index);
+                System.out.println("prior_maxval: "+ prior_maxval + " maxval:" + maxval);
+                System.out.println("resultant current posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval);
+                for (int q = 0; q < 8; q++) {
+                    if (posterior[q]==maxval && maxval!=0){
+                        cellValue[q] = cellValue[q] + 1;
+                    }
                 }
-                sum = 0;
-                maxval = -1;
-                System.out.println("current posterior: " + Arrays.toString(posterior));
+                System.out.println("current cell values: " + Arrays.toString(cellValue));
+
             }
+            System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
         }
-
-
-
+        title.setText(Arrays.toString(cellValue));
 
     }
 

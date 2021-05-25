@@ -78,6 +78,7 @@
         android:textSize="15dp" />
 
     <TextView
+        android:id="@+id/texttitle"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:background="@drawable/grass"
