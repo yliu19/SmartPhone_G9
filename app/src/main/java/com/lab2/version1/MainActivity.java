@@ -74,6 +74,7 @@ public class MainActivity extends Activity implements OnClickListener {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            ////////////////////\\\\\\\\\\\\\\\\\\\\////////////////////\\\\\\\\\\\\\\\\\\\\////////////////////\\\\\\
             //SSID 2
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.014493,0.086957,0,0,0,0.014493,0.043478,0.028986,0.014493,0.18841,0.057971,0,0,0.028986,0.057971,0,0.028986,0.057971,0.10145,0.13043,0.043478,0.043478,0.028986,0,0.028986,0,0,0,0,0,0,0,0,0},
             {0,0.070175,0.017544,0,0,0,0.017544,0.035088,0,0,0,0,0.19298,0.052632,0.14035,0.052632,0.017544,0.017544,0.017544,0.14035,0.10526,0.10526,0,0,0,0,0,0,0,0.017544,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -84,6 +85,7 @@ public class MainActivity extends Activity implements OnClickListener {
             {0.041667,0.083333,0.055556,0.055556,0.041667,0,0,0.083333,0.055556,0.125,0.097222,0.19444,0,0.013889,0.055556,0.041667,0,0,0,0.027778,0,0.013889,0.013889,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0.55556,0.11111,0.037037,0.074074,0.11111,0,0,0,0,0,0.037037,0,0,0,0,0,0,0,0,0,0,0,0,0.037037,0,0,0,0,0.037037,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             //SSID 3
+            ////////////////////\\\\\\\\\\\\\\\\\\\\////////////////////
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.02439,0,0,0,0,0,0.04878,0.04878,0.097561,0.097561,0.17073,0.097561,0.04878,0.073171,0.19512,0.04878,0.04878},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.022222,0,0.022222,0.066667,0.11111,0.17778,0.11111,0.11111,0.11111,0.13333,0.088889,0.022222,0,0,0,0,0.022222,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.044444,0.11111,0.11111,0.088889,0.044444,0.044444,0.022222,0.33333,0.13333,0,0.066667,0,0,0,0,0},
@@ -448,7 +450,7 @@ public class MainActivity extends Activity implements OnClickListener {
         }
         // Write results to a label
         for (int i=0;i<scanResults.size();i++) {
-            System.out.println("ordered BSSI: "+ BSSIDs[i]  + "  RSSI: " + RSSIs[i] + "dBm");
+            System.out.println("ordered BSSI: "+ BSSIDs[i]  + "  RSSI: " + (RSSIs[i]-84) + "dBm");
 
         }
         //update belief
@@ -460,14 +462,23 @@ public class MainActivity extends Activity implements OnClickListener {
             if (index < 0) {
                 System.out.println("BSSI not found...");
             } else {
-                System.out.println("before while loop: prior_maxval: "+ prior_maxval + " maxval:" + maxval);
+                for (int k = 0; k < 8; k++) {
+                    posterior[k] = 0.125;
+                    prior[k] = 0.125;
+                }
+                System.out.println("before while loop:  posterior: " + Arrays.toString(posterior) + " prior_max: " + prior_maxval + " maxval:" + maxval);
+                System.out.println("before loop BSSI: "+ BSSIDs[i]  + "  RSSI: " + (RSSIs[i]-84) + "dBm" + " index: " + index);
                 while (maxval < 0.9 && prior_maxval!=maxval) {
+                    System.out.print("table data: ");
                     for (int k = 0; k < 8; k++) {
                         //                    System.out.println("prior: " + posterior[k] + "  POSSIBILITY: " + tableData[index * 8 + k][RSSIs[0]]);
+                        System.out.print(tableData[index * 8 + k][RSSIs[i]] + ",");
                         posterior[k] = prior[k] * tableData[index * 8 + k][RSSIs[i]];
                         sum = sum + posterior[k];
                         prior[k] = posterior[k];
                     }
+                    System.out.println(" ");
+                    System.out.println("before nomalize posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval + " Prior max: " + prior_maxval + " sum: " + sum);
                     prior_maxval = maxval;
                     //normalize
                     for (int k = 0; k < 8 && sum!=0; k++) {
@@ -478,16 +489,12 @@ public class MainActivity extends Activity implements OnClickListener {
                     sum = 0;
                 }
                 //update cell value
-                System.out.println("ordered BSSI: "+ BSSIDs[i]  + "  RSSI: " + RSSIs[i] + "dBm" + " index: " + index);
-                System.out.println("prior_maxval: "+ prior_maxval + " maxval:" + maxval);
-                System.out.println("resultant current posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval);
                 for (int q = 0; q < 8; q++) {
                     if (posterior[q]==maxval && maxval!=0){
                         cellValue[q] = cellValue[q] + 1;
                     }
                 }
                 System.out.println("current cell values: " + Arrays.toString(cellValue));
-
             }
             System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
         }
