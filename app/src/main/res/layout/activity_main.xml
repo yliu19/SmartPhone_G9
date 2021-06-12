@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -128,24 +129,6 @@
         android:textSize="25dp"
         android:textColor="#619759"
         android:text="Need Rescan?" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="120dp"
-        android:layout_marginLeft="200dp"
-        android:src="@drawable/tree1" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="170dp"
-        android:layout_marginLeft="320dp"
-        android:src="@drawable/tree2" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -337,7 +320,7 @@
         android:layout_marginTop="460dp"
         android:src="@drawable/f4" />
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/cell2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -407,9 +390,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="260dp"
         android:layout_marginTop="340dp"
-        android:src="@android:drawable/ic_menu_mylocation" />
+        android:src="@android:drawable/ic_menu_mylocation" />-->
 
-
+    <ImageView
+        android:id="@+id/compass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/compass_icon" />
 
 
 
