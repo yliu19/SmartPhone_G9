@@ -112,6 +112,33 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
     int degreeOffset = 0;
     int trueDegree = 0;
     double radian = 0;
+
+    double [] distToData = new double [90];
+    double [] indexOfDist = new double [90];
+    double temp = 0;
+    int kval = 9;
+    int [] classifyTo = {0,0,0};
+    int result = -1;
+    String[] actionS = {"Still","Walk","Jump"};
+    double [] [] still = {
+            {0.19507,0.49639,0.09753,0.18901,0.45662,0.13233,0.10679,0.08123,0.25143,0.21019,0.37567,0.36003,0.097549,0.13136,0.26735,0.18248,0.11716,0.37756,0.2098,0.15386,0.11169,0.083309,0.27975,0.20175,0.091478,0.12771,0.15249,0.071567,0.11676,0.12612},
+            {0.12141,0.3172,0.08374,0.14838,0.28831,0.079392,0.095203,0.054961,0.16859,0.25787,0.21546,0.11972,0.11134,0.10943,0.14453,0.081796,0.084726,0.097262,0.069939,0.084027,0.0792,0.031316,0.20722,0.15165,0.081881,0.087379,0.054502,0.059079,0.0878,0.068963}
+    };
+    double [] [] walk = {
+            {6.3345,2.9809,6.5266,6.6281,3.4636,4.0101,4.8374,4.0023,5.2336,4.8746,5.0295,5.532,5.0859,3.5678,4.2456,3.8224,3.2224,3.4011,4.0319,4.7705,4.3547,3.8386,5.2459,3.6757,5.1337,4.9413,4.8519,5.1239,4.145,4.7008},
+            {3.2329,2.1023,2.2391,2.5911,2.0106,2.1904,2.6407,2.5238,1.9393,1.5621,2.6938,2.676,2.4268,1.7566,1.5204,2.6467,2.4089,2.9853,1.7639,2.2784,2.9919,1.7596,2.6233,2.611,2.2873,2.161,2.1358,2.9687,2.8458,2.9033}
+    };
+    double [] [] jump = {
+            {11.536,15.261,19.305,17.029,13.204,15.133,18.48,11.538,11.46,10.563,14.179,20.672,15.944,15.552,18.304,16.542,15.486,18.378,9.9079,15.537,12.311,12.432,18.298,12.706,14.952,13.469,12.54,12.918,18.496,12.511},
+            {4.0393,5.6788,6.5035,6.5781,5.1514,9.9855,9.5697,5.7952,5.9148,4.9502,6.0155,4.6433,5.4232,5.7093,11.427,8.9028,8.0331,4.9146,5.2794,6.572,5.6256,6.1625,7.8103,5.0212,6.4888,5.3544,4.4429,6.1381,6.0802,5.7532}
+    };
+
+    int countsave = 0;
+    double [] stepsave = new double [100];
+    double [] stepsavex = new double [100];
+    double [] stepsavey = new double [100];
+    double [] stepsavez = new double [100];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +177,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        System.out.println("height: " + height + "width: " + width);
+        //System.out.println("height: " + height + "width: " + width);
         //assign points
         for (int xa = 70;xa<=width/2-10;xa=xa+20){
             for (int ya = (int) (0.6*height - 90); ya<=height-510;ya=ya+20){
@@ -179,10 +206,10 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 countpoints ++;
             }
         }
-        System.out.println("points count:" + countpoints);
+/*        System.out.println("points count:" + countpoints);
         System.out.println("data points x.....: " + Arrays.toString(Arrays.copyOfRange(pointsSaveStore[0], 1000, 1431)));
         System.out.println("data points y.....: " + Arrays.toString(Arrays.copyOfRange(pointsSaveStore[1], 1000, 1431)));
-        System.out.println("length of data:" + totalPoints);
+        System.out.println("length of data:" + totalPoints);*/
 
         //create walls anf layout
         walls = new ArrayList<>();
@@ -347,17 +374,37 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 // Start animation of compass image
                 comp.startAnimation(ra);
                 DegreeStart = -trueDegree;
-                state.setText(Integer.toString(trueDegree));
+                //state.setText(Integer.toString(trueDegree));
             }
             else if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER ) {
                 // get the the x,y,z values of the accelerometer
                 aX = sensorEvent.values[0];
                 aY = sensorEvent.values[1];
                 aZ = sensorEvent.values[2];
+                //isWalk((double)aX,(double)aZ);
                 square = Math.sqrt(Math.pow(aX,2)+Math.pow(aY,2)+Math.pow(aZ,2));
+
+                if (countsave<100){
+                    stepsave[countsave] = square;
+                    stepsavex[countsave] =  (double) aX;
+                    stepsavey[countsave] =  (double) aZ;
+                    stepsavez[countsave] =  (double) aX;
+                    countsave++;
+                    System.out.println(countsave);
+                } else {
+                    System.out.println("step data.................:");
+                    System.out.println(Arrays.toString(stepsave));
+                    System.out.println(Arrays.toString(stepsavex));
+                    System.out.println(Arrays.toString(stepsavey));
+                    System.out.println(Arrays.toString(stepsavez));
+                    countsave = 0;
+                }
+
                 cur_dif = square - prev_square;
                 //System.out.println("square: " + square + " predif: " + prev_dif + " curdif: " + cur_dif);
-                if (cur_dif < 0 && prev_dif >= 0 && prev_square>=11) {
+
+                if (cur_dif < 0 && prev_dif >= 0 && prev_square>=12.5) {
+                //if (aX>1){
                     count = count + 1;
                     title.setText("You walked " + Integer.toString(count) + "steps");
                     //System.out.println(count);
@@ -412,7 +459,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         radian = degrees/180 * Math.PI;
         double deltax = steps*Math.sin(radian);
         double deltay = steps*Math.cos(radian);
-        System.out.println("degrees: " + degrees + " steps: " + steps + " delta x:" + deltax + " delat y: "+ deltay);
+        //System.out.println("degrees: " + degrees + " steps: " + steps + " delta x:" + deltax + " delat y: "+ deltay);
         for (int i = 0;i<totalPoints;i++){
             pointsSave[0][i] = (int) Math.round(pointsSave[0][i] + deltax);
             pointsSave[1][i] = (int) Math.round(pointsSave[1][i] - deltay);
@@ -448,6 +495,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
             drawable.draw(canvas);
         }
     }
+
     private void cleanDraw(){
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -462,6 +510,73 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         canvas.drawRect(70,height/5+10,width/2-10,height/5+290, paint);
         for(ShapeDrawable wall : walls)
             wall.draw(canvas);
+    }
+
+    private void isWalk(double ampX,double ampZ){
+        for (int j=0; j<30; j++){
+            distToData[j] = Math.sqrt((ampX-still[0][j])*(ampX-still[0][j])+(ampZ-still[1][j])*(ampZ-still[1][j]));
+        }
+        for (int j=30; j<60; j++){
+            distToData[j] = Math.sqrt((ampX-walk[0][j-30])*(ampX-walk[0][j-30])+(ampZ-walk[1][j-30])*(ampZ-walk[1][j-30]));
+        }
+        for (int j=60; j<90; j++){
+            distToData[j] = Math.sqrt((ampX-jump[0][j-60])*(ampX-jump[0][j-60])+(ampZ-jump[1][j-60])*(ampZ-jump[1][j-60]));
+        }
+/*        System.out.println("Distance to still,walk,jump ");
+        System.out.println(Arrays.toString(distToData));*/
+        //initialize the index
+        for (int m = 0;m<90;m++){
+            indexOfDist[m] = m;
+        }
+        //sort distance and find closest k points
+        for (int i=0;i<90;i++){
+            for (int m=i+1;m<90;m++){
+                if (distToData[i]>distToData[m]){
+                    temp = distToData[i];
+                    distToData[i] = distToData[m];
+                    distToData[m] = temp;
+                    temp = indexOfDist[i];
+                    indexOfDist[i] = indexOfDist[m];
+                    indexOfDist[m] = temp;
+                }
+            }
+        }
+/*        System.out.println("Sorted Distance to still,walk,jump  ");
+        System.out.println(Arrays.toString(distToData));
+        System.out.println("Index of Sorted Distance " );
+        System.out.println(Arrays.toString(indexOfDist));*/
+        //classify the point
+        for (int i=0;i<kval;i++){
+            if (indexOfDist[i]<30){
+                classifyTo[0]++;
+            }
+            else if (indexOfDist[i]>60){
+                classifyTo[2]++;
+            }
+            else{
+                classifyTo[1]++;
+            }
+        }
+        //classify the recorded data
+        int [] sorted = new int[3];
+        for (int g=0;g<3;g++){
+            sorted[g] = classifyTo[g];
+        }
+        Arrays.sort(sorted);
+        System.out.println("classify to s,w,j:");
+        System.out.println(Arrays.toString(classifyTo));
+        System.out.println("sorted classify:");
+        System.out.println(Arrays.toString(sorted));
+        for (int l=0;l<3;l++){
+            if (classifyTo[l]==sorted[2]){
+                result = l;
+            }
+        }
+        System.out.println("results is :" + result);
+        state.setText(actionS[result]);
+        // update the text.
+        result = -1;
+        System.out.println("task finished!");
     }
 
 }
