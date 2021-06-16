@@ -91,6 +91,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
      * Accelerometer z value
      */
     private float aZ = 0;
+    private WifiManager wifiManager;
 
     //other parameters
     boolean running = false;
@@ -113,7 +114,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
     int degreeOffset = 0;
     int trueDegree = 0;
     double radian = 0;
-
+    boolean useBayes = false;
 /*    double [] distToData = new double [90];
     double [] indexOfDist = new double [90];
     double temp = 0;
@@ -577,11 +578,213 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 initPA.setBackgroundColor(Color.GREEN);
                 initBY.setBackgroundDrawable(getResources().getDrawable(R.drawable.grass));
                 running = true;
+                useBayes = false;
                 break;
             }
             // SENSE BYE
             case R.id.button3: {
+                if (useBayes){
+                    title.setText("Processing");
+                    double [] prior = {0.125,0.125,0.125,0.125,0.125,0.125,0.125,0.125};
+                    double [] posterior = {0.125,0.125,0.125,0.125,0.125,0.125,0.125,0.125};
+                    double prior_maxval = -2;
+                    int temp = 0;
+                    String tempc = "";
+                    double sum = 0;
+                    double maxval = -1;
+                    int [] cellValue = new int [8];
+                    boolean changed = false;
+                    int maxcell_index = -1;
+                    int maxcell_value = -1;
+                    int stop = 0;
 
+                    Cell1.setVisibility(View.INVISIBLE);
+                    Cell2.setVisibility(View.INVISIBLE);
+                    Cell3.setVisibility(View.INVISIBLE);
+                    Cell4.setVisibility(View.INVISIBLE);
+                    Cell5.setVisibility(View.INVISIBLE);
+                    Cell6.setVisibility(View.INVISIBLE);
+                    Cell7.setVisibility(View.INVISIBLE);
+                    Cell8.setVisibility(View.INVISIBLE);
+                    //////////////////////////////
+                    //record wifi data
+                    wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.startScan();
+                    List<ScanResult> scanResults = wifiManager.getScanResults();
+                    //store wifi data
+                    int [] RSSIs = new int [scanResults.size()];
+                    String [] BSSIDs = new String [scanResults.size()];
+                    for (int m=0;m<scanResults.size();m++){
+                        RSSIs[m] = scanResults.get(m).level+90;
+                        BSSIDs[m] = scanResults.get(m).BSSID;
+                    }
+                    /*for (int i=0;i<scanResults.size();i++) {
+                        System.out.println("BSSI: "+ BSSIDs[i]  + "  RSSI: " + RSSIs[i] + "dBm");
+
+                    }*/
+                    //reorder RSSI in descending order
+                    for (int j=0;j<scanResults.size();j++){
+                        for (int g=j+1;g<scanResults.size();g++){
+                            if (RSSIs[j]<RSSIs[g]){
+                                temp = RSSIs[j];
+                                RSSIs[j] = RSSIs[g];
+                                RSSIs[g] = temp;
+                                tempc = BSSIDs[j];
+                                BSSIDs[j] = BSSIDs[g];
+                                BSSIDs[g] = tempc;
+                            }
+                        }
+                    }
+                    // Write results to a label
+                    /*for (int i=0;i<scanResults.size();i++) {
+                        System.out.println("ordered BSSI: "+ BSSIDs[i]  + "  RSSI: " + (RSSIs[i]-90) + "dBm");
+
+                    }*/
+                    //update belief
+                    stop = 0;
+                    for (int i =0;i<scanResults.size() && RSSIs[i] >= 0 && RSSIs[i]<68 && stop==0;i++) {
+                        int index = Arrays.binarySearch(allSSIDs, BSSIDs[i]);
+                        index = Arrays.binarySearch(unique2, BSSIDs[i]);
+                        if (index >=0){
+                            cellValue[1] = cellValue[1] + 2;
+                            //System.out.println("Unique in sell 2");
+                        } else {
+                            index = Arrays.binarySearch(unique5, BSSIDs[i]);
+                            if (index >=0){
+                                cellValue[4] = cellValue[4] + 2;
+                                //System.out.println("Unique in sell 5");
+                            } else {
+                                index = Arrays.binarySearch(unique6, BSSIDs[i]);
+                                if (index >=0){
+                                    cellValue[5] = cellValue[5] + 2;
+                                    //System.out.println("Unique in sell 6");
+                                } else {
+                                    index = Arrays.binarySearch(unique7, BSSIDs[i]);
+                                    if (index >=0){
+                                        cellValue[6] = cellValue[6] + 2;
+                                        //System.out.println("Unique in sell 7");
+                                    } else {
+                                        index = Arrays.binarySearch(unique8, BSSIDs[i]);
+                                        if (index >=0){
+                                            cellValue[7] = cellValue[7] + 2;
+                                            //System.out.println("Unique in sell 8");
+                                        } else {
+                                            System.out.println("Not Unique SSID");
+                                            index = Arrays.binarySearch(allSSIDs, BSSIDs[i]);
+                                            //System.out.println("index of max RSSI: " + index);
+                                            maxval = 0;
+                                            prior_maxval = -1;
+                                            if (index < 0) {
+                                                //System.out.println("BSSI not found...");
+                                            } else {
+                                                for (int k = 0; k < 8; k++) {
+                                                    posterior[k] = 0.125;
+                                                    prior[k] = 0.125;
+                                                }
+                                                //System.out.println("before while loop:  posterior: " + Arrays.toString(posterior) + " prior_max: " + prior_maxval + " maxval:" + maxval);
+                                                //System.out.println("before loop BSSI: "+ BSSIDs[i]  + "  RSSI: " + (RSSIs[i]-90) + "dBm" + " index: " + index);
+                                                while (maxval < 0.9 && prior_maxval!=maxval) {
+                                                    //System.out.print("table data: ");
+                                                    for (int k = 0; k < 8; k++) {
+                                                        //using table data
+                                                        System.out.print(tableData[index * 8 + k][RSSIs[i]] + ",");
+                                                        posterior[k] = prior[k] * tableData[index * 8 + k][RSSIs[i]];
+                                                        sum = sum + posterior[k];
+                                                        prior[k] = posterior[k];
+                                                    }
+                                                    //System.out.println(" ");
+                                                    //System.out.println("before nomalize posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval + " Prior max: " + prior_maxval + " sum: " + sum);
+                                                    prior_maxval = maxval;
+                                                    //normalize
+                                                    for (int k = 0; k < 8 && sum!=0; k++) {
+                                                        posterior[k] = posterior[k] / sum;
+                                                        maxval = Math.max(maxval, posterior[k]);
+                                                    }
+                                                    //System.out.println("current posterior: " + Arrays.toString(posterior) + " MAX P: " + maxval + " Prior max: " + prior_maxval + " sum: " + sum);
+                                                    sum = 0;
+                                                }
+                                                //update cell value
+                                                for (int q = 0; q < 8; q++) {
+                                                    if (posterior[q]==maxval && maxval!=0){
+                                                        cellValue[q] = cellValue[q] + 1;
+                                                    }
+                                                }
+                                                //System.out.println("current cell values: " + Arrays.toString(cellValue));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+                    }
+                    //title.setText("Belief: " + Arrays.toString(cellValue));
+                    //find cell with max value
+                    for (int q = 0; q < 8; q++) {
+                        if (cellValue[q] >= maxcell_value){
+                            maxcell_value = cellValue[q];
+                        }
+//            CELLs[q].setVisibility(View.INVISIBLE);
+                    }
+                    System.out.println("current cell values: " + Arrays.toString(cellValue));
+                    System.out.println("old cell values: " + Arrays.toString(old_cellValue));
+                    int count = 0;
+                    for (int q = 0; q < 8; q++) {
+                        if (cellValue[q] == maxcell_value){
+                            switch(q) {
+                                case 0:
+                                    Cell1.setVisibility(View.VISIBLE);
+                                    break;
+                                case 1:
+                                    Cell2.setVisibility(View.VISIBLE);
+                                    break;
+                                case 2:
+                                    Cell3.setVisibility(View.VISIBLE);
+                                    break;
+                                case 3:
+                                    Cell4.setVisibility(View.VISIBLE);
+                                    break;
+                                case 4:
+                                    Cell5.setVisibility(View.VISIBLE);
+                                    break;
+                                case 5:
+                                    Cell6.setVisibility(View.VISIBLE);
+                                    break;
+                                case 6:
+                                    Cell7.setVisibility(View.VISIBLE);
+                                    break;
+                                case 7:
+                                    Cell8.setVisibility(View.VISIBLE);
+                                    break;
+                                default:
+                            }
+                            count = count + 1;
+                        }
+                        if (cellValue[q]!=old_cellValue[q]){
+                            changed = true;
+                        }
+                        old_cellValue[q] = cellValue[q];
+                    }
+
+                    if (count>=3){
+                        Cell1.setVisibility(View.INVISIBLE);
+                        Cell2.setVisibility(View.INVISIBLE);
+                        Cell3.setVisibility(View.INVISIBLE);
+                        Cell4.setVisibility(View.INVISIBLE);
+                        Cell5.setVisibility(View.INVISIBLE);
+                        Cell6.setVisibility(View.INVISIBLE);
+                        Cell7.setVisibility(View.INVISIBLE);
+                        Cell8.setVisibility(View.INVISIBLE);
+                        title.setText("Please rescan !!!");
+                    } else if (!changed) {
+                        title.setText("Scanner stuck:(");
+                    } else{
+                        title.setText("You might be here :)");
+                    }
+                    changed = false;
+
+
+                }
                 break;
             }
             // INITIAL BYE
@@ -589,6 +792,20 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 initBY.setBackgroundColor(Color.GREEN);
                 initPA.setBackgroundDrawable(getResources().getDrawable(R.drawable.grass));
                 running = false;
+                useBayes = true;
+                Cell1.setVisibility(View.VISIBLE);
+                Cell2.setVisibility(View.VISIBLE);
+                Cell3.setVisibility(View.VISIBLE);
+                Cell4.setVisibility(View.VISIBLE);
+                Cell5.setVisibility(View.VISIBLE);
+                Cell6.setVisibility(View.VISIBLE);
+                Cell7.setVisibility(View.VISIBLE);
+                Cell8.setVisibility(View.VISIBLE);
+                for (int i = 0;i<2115;i++) {
+                    drawable.getPaint().setColor(myColor);
+                    drawable.setBounds(pointsSave[0][i] - 2, pointsSave[1][i] - 2, pointsSave[0][i] + 2, pointsSave[1][i] + 2);
+                    drawable.draw(canvas);
+                }
                 break;
             }
         }
