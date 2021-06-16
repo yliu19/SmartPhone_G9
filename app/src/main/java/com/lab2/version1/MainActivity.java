@@ -104,7 +104,10 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
     double prev_dif = 0;
     double cur_dif = 0;
     int count = 0;
-
+    int countpoints = 0;
+    int totalPoints = 504+567+360;
+    int [][] pointsSave = new int [2][totalPoints];
+    int myColor = Color.parseColor("#757575");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,13 +146,64 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+        //assign points
+        for (int xa = 70;xa<=width/2-10;xa=xa+20){
+            for (int ya = (int) (0.6*height - 90); ya<=height-510;ya=ya+20){
+                pointsSave[0][countpoints] = xa;
+                pointsSave[1][countpoints] = ya;
+                countpoints ++;
+            }
+        }
+        for (int xb = (int) width/2-140;xb<=width-160;xb=xb+20){
+            for (int yb = (int) height/5+310; yb<=0.6*height-110;yb=yb+20){
+                pointsSave[0][countpoints] = xb;
+                pointsSave[1][countpoints] = yb;
+                countpoints ++;
+            }
+        }
+        for (int xc = 70;xc<=width/2-10;xc=xc+20){
+            for (int yc = (int) height/5+10; yc<=height/5+290;yc=yc+20){
+                pointsSave[0][countpoints] = xc;
+                pointsSave[1][countpoints] = yc;
+                countpoints ++;
+            }
+        }
+        System.out.println("data points x.....: " + Arrays.toString(Arrays.copyOfRange(pointsSave[0], 1000, 1431)));
+        System.out.println("data points y.....: " + Arrays.toString(Arrays.copyOfRange(pointsSave[1], 1000, 1431)));
+        System.out.println("length of data:" + totalPoints);
+        //create walls anf layout
         walls = new ArrayList<>();
         ShapeDrawable d1 = new ShapeDrawable(new RectShape());
-        d1.setBounds(width/2, height/5+300, width/2+10, height*2/5+100);
+        d1.setBounds(width/2, height/5, width/2+10, height*2/5+100);
         ShapeDrawable d2 = new ShapeDrawable(new RectShape());
         d2.setBounds(width/2+150, height*2/5+100, width/2+160, height*3/5+50);
+        ShapeDrawable d3 = new ShapeDrawable(new RectShape());
+        d3.setBounds(60, height-500, width-150, height-490);
+        ShapeDrawable d4 = new ShapeDrawable(new RectShape());
+        d4.setBounds(50, height/5, 60, height-490);
+        ShapeDrawable d5 = new ShapeDrawable(new RectShape());
+        d5.setBounds(width/2, 3*height/5-100, width-150, height-500);
+        ShapeDrawable d6 = new ShapeDrawable(new RectShape());
+        d6.setBounds(width-150, height/5+300, width-140, height-500);
+        ShapeDrawable d7 = new ShapeDrawable(new RectShape());
+        d7.setBounds(width/2, height/5+290, width-140, height/5+300);
+/*        ShapeDrawable d8 = new ShapeDrawable(new RectShape());
+        d8.setBounds(50, 3*height/5-100, width/2-140, 3*height/5-90);
+        ShapeDrawable d9 = new ShapeDrawable(new RectShape());
+        d9.setBounds(width/2-150, height/5+290, width/2-140, 3*height/5-100);*/
+        ShapeDrawable d10 = new ShapeDrawable(new RectShape());
+        d10.setBounds(60, height/5+290, width/2-140, 3*height/5-100);
+        ShapeDrawable d11 = new ShapeDrawable(new RectShape());
+        d11.setBounds(50, height/5, width/2, height/5+10);
         walls.add(d1);
         walls.add(d2);
+        walls.add(d3);
+        walls.add(d4);
+        walls.add(d5);
+        walls.add(d6);
+        walls.add(d7);
+        walls.add(d10);
+        walls.add(d11);
         // create a canvas
         ImageView canvasView = (ImageView) findViewById(R.id.canvas);
         Bitmap blankBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
@@ -157,7 +211,6 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         canvasView.setImageBitmap(blankBitmap);
         Paint paint = new Paint();
         //fill colors
-        int myColor = Color.parseColor("#757575");
         paint.setColor(myColor);
         paint.setStyle(Paint.Style.FILL);
         //laundrt room
@@ -170,29 +223,16 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
         canvas.drawRect(width-150,height/5+300,width,height*3/5-100, paint);
         //stairs
         canvas.drawRect(60,height/5,width/2,height/5+300, paint);
-        //draw boundaries
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
-        //laundrt room
-        canvas.drawRect(width/2,height*3/5-100,width-150,height-500, paint);
-        //inaccessible
-        canvas.drawRect(width/2,height*3/5+50,width-150,height-500, paint);
-        //home
-        canvas.drawRect(60,height/5+300,width-150,height-500, paint);
-        //bedroom
-        canvas.drawRect(60,height*3/5-100,width/2,height-500, paint);
-        //stairs
-        canvas.drawRect(60,height/5,width/2,height/5+300, paint);
-        //living room
-        canvas.drawRect(60,height/5+300,width/2-130,height*3/5-100, paint);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(width/2+5,height*3/5+55,width-155,height-505, paint);
-        canvas.drawRect(60,height/5+300,width/2-130,height*3/5-100, paint);
-        // draw the objects
+        //draw
+        for (int i = 0;i<totalPoints;i++) {
+            drawable = new ShapeDrawable(new OvalShape());
+            drawable.getPaint().setColor(Color.BLUE);
+            drawable.setBounds(pointsSave[0][i] - 2, pointsSave[1][i] - 2, pointsSave[0][i] + 2, pointsSave[1][i] + 2);
+            drawable.draw(canvas);
+        }
         for(ShapeDrawable wall : walls)
             wall.draw(canvas);
+        //cell draw
         Paint fgPaintSel = new Paint();
         fgPaintSel.setStyle(Paint.Style.STROKE);
         fgPaintSel.setPathEffect(new DashPathEffect(new float[] {10f,20f}, 0f));
@@ -229,8 +269,10 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
     @Override
     public void onClick(View v) {
         System.out.println("Hello, you pressed");
-        step = !step;
-        System.out.println(step);
+        updatePoints(100,0);
+        System.out.println("data points x.....: " + Arrays.toString(pointsSave[0]));
+        System.out.println("data points y.....: " + Arrays.toString(pointsSave[1]));
+        System.out.println("length of data:" + totalPoints);
     }
 
     @Override
@@ -264,7 +306,7 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 SensorManager.getRotationMatrixFromVector( rMat, sensorEvent.values );
                 // get the azimuth value (orientation[0]) in degree
                 mAzimuth = (int) ( Math.toDegrees( SensorManager.getOrientation( rMat, orientation )[0] ) + 360 ) % 360;
-                System.out.println("degrees: " + mAzimuth);
+                //System.out.println("degrees: " + mAzimuth);
 
                 // rotation animation - reverse turn degree degrees
                 RotateAnimation ra = new RotateAnimation(
@@ -287,11 +329,11 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
                 aZ = sensorEvent.values[2];
                 square = Math.sqrt(Math.pow(aX,2)+Math.pow(aY,2)+Math.pow(aZ,2));
                 cur_dif = square - prev_square;
-                System.out.println("square: " + square + " predif: " + prev_dif + " curdif: " + cur_dif);
+                //System.out.println("square: " + square + " predif: " + prev_dif + " curdif: " + cur_dif);
                 if (cur_dif < 0 && prev_dif >= 0 && prev_square>=11) {
                     count = count + 1;
                     title.setText("You walked " + Integer.toString(count) + "steps");
-                    System.out.println(count);
+                    //System.out.println(count);
                 }
                 prev_dif = cur_dif;
                 prev_square = square;
@@ -299,6 +341,24 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
 /*            System.out.println(Arrays.toString(sensorEvent.values));
             state.setText(String.valueOf(sensorEvent.values));*/
         }
+        for (int i = 0;i<totalPoints;i++){
+            drawable = new ShapeDrawable(new OvalShape());
+            drawable.getPaint().setColor(myColor);
+            drawable.setBounds(pointsSave[0][i] - 2, pointsSave[1][i] - 2, pointsSave[0][i] + 2, pointsSave[1][i] + 2);
+            drawable.draw(canvas);
+            if(isCollision()) {
+                for (int j = i; j < totalPoints - 1; j++) {
+                    pointsSave[0][j] = pointsSave[0][j + 1];
+                    pointsSave[1][j] = pointsSave[1][j + 1];
+                    i=i-1;
+                }
+                totalPoints--;
+            }
+        }
+        System.out.println("length of data:" + totalPoints);
+
+        // redrawing of the object
+
     }
 
 
@@ -307,5 +367,36 @@ public class MainActivity extends Activity implements SensorEventListener,OnClic
 
     }
 
+    /**
+     * Determines if the drawable dot intersects with any of the walls.
+     * @return True if that's true, false otherwise.
+     */
+    private boolean isCollision() {
+        for(ShapeDrawable wall : walls) {
+            if(isCollision(wall,drawable))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if two shapes intersect.
+     * @param first The first shape.
+     * @param second The second shape.
+     * @return True if they intersect, false otherwise.
+     */
+    private boolean isCollision(ShapeDrawable first, ShapeDrawable second) {
+        Rect firstRect = new Rect(first.getBounds());
+        return firstRect.intersect(second.getBounds());
+    }
+
+
+    private void updatePoints(int steps,double degrees){
+        for (int i = 0;i<totalPoints;i++){
+            pointsSave[0][i] = (int) (pointsSave[0][i] + steps*Math.cos(degrees));
+            pointsSave[1][i] = (int) (pointsSave[1][i] + steps*Math.sin(degrees));
+
+        }
+    }
 
 }

@@ -58,7 +58,7 @@
         android:text="kitchen"
         android:textSize="15dp" />
 
-    <TextView
+ <!--   <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -76,7 +76,7 @@
         android:layout_marginTop="398dp"
         android:layout_marginLeft="230dp"
         android:text="bathroom"
-        android:textSize="15dp" />
+        android:textSize="15dp" />-->
 
     <TextView
         android:layout_width="350dp"
@@ -148,7 +148,7 @@
         android:layout_marginTop="425dp"
         android:src="@drawable/table4" />
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/imageView6"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -172,7 +172,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="275dp"
         android:layout_marginTop="420dp"
-        android:src="@drawable/wash2" />
+        android:src="@drawable/wash2" />-->
 
  <!--   <ImageView
         android:layout_width="40dp"
